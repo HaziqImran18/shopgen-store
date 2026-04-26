@@ -1,104 +1,880 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Processing Demo Order...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopGen — Pakistani Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --cream: #FAF7F2;
+      --dark: #1A1208;
+      --gold: #C9A84C;
+      --rust: #C0392B;
+      --green: #2E6B4F;
+      --text: #3D2B1F;
+      --muted: #8B7355;
+      --border: #E8E0D0;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--dark);
+      padding: 0 40px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background: #f5f3f0;
-      margin: 0;
-      padding: 20px;
+      justify-content: space-between;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .card {
-      background: white;
-      border-radius: 28px;
-      padding: 32px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 2px;
     }
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid #e2dbd1;
-      border-top-color: #2e6b4f;
+
+    .logo span { color: var(--white); }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    .whatsapp-btn {
+      background: #25D366;
+      color: white !important;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.82rem !important;
+    }
+    .whatsapp-btn:hover { background: #1ebe57; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--dark) 0%, #3D2B1F 50%, #1A1208 100%);
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      padding: 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .success { color: #2e6b4f; }
-    .error { color: #c0392b; }
+
+    .hero-content { max-width: 560px; position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.4rem;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero p {
+      color: #bbb;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-gold:hover { background: #b8943e; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── WHATSAPP BANNER ── */
+    .wa-banner {
+      background: linear-gradient(90deg, #25D366, #128C7E);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .wa-banner p {
+      color: white;
+      font-size: 0.95rem;
+    }
+
+    .wa-banner strong { font-weight: 600; }
+
+    .wa-badge {
+      background: white;
+      color: #25D366;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── BRANDS ── */
+    .brands {
+      padding: 40px 80px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .brands span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0 20px;
+      border-right: 1px solid var(--border);
+    }
+    .brands span:last-child { border: none; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      padding: 24px 80px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-right: 8px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--dark);
+      color: var(--white);
+      border-color: var(--dark);
+    }
+
+    /* ── PRODUCTS GRID ── */
+    .products-section {
+      padding: 50px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--dark);
+    }
+
+    .product-count {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      background: #f0ebe3;
+      display: block;
+    }
+
+    .product-body { padding: 18px; }
+
+    .product-brand {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .product-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .product-badge {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 10px;
+      background: #f0ebe3;
+      color: var(--muted);
+      text-transform: capitalize;
+    }
+
+    .out-of-stock {
+      opacity: 0.55;
+    }
+
+    .oos-badge {
+      background: #fee2e2;
+      color: var(--rust);
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--dark);
+      padding: 70px 80px;
+      text-align: center;
+    }
+
+    .how-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .how-section p {
+      color: var(--muted);
+      margin-bottom: 50px;
+      font-size: 0.95rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 32px 24px;
+    }
+
+    .step-icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #999;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111;
+      padding: 30px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      color: #666;
+      font-size: 0.82rem;
+    }
+
+    footer .logo { font-size: 1.2rem; }
+
+    /* ── ORDER MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 480px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .modal .subtitle {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+
+    .modal input, .modal select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--cream);
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .modal input:focus, .modal select:focus { border-color: var(--gold); }
+
+    .modal label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-product-info {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .modal-product-info img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .modal-product-info .pname {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--dark);
+    }
+    .modal-product-info .pprice {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .modal-actions { display: flex; gap: 12px; margin-top: 8px; }
+
+    .btn-place {
+      flex: 1;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+    }
+    .btn-place:hover { background: #245a41; }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 14px 20px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── SUCCESS ── */
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-box .tick { font-size: 3rem; margin-bottom: 16px; }
+    .success-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+    .success-box p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+    .order-id { font-weight: 700; color: var(--dark); }
+
+    @media (max-width: 768px) {
+      .hero { padding: 50px 24px; }
+      .hero h1 { font-size: 2.2rem; }
+      .products-section { padding: 40px 20px; }
+      .filter-bar { padding: 16px 20px; }
+      .brands { padding: 30px 20px; }
+      .how-section { padding: 50px 24px; }
+      footer { padding: 24px 20px; }
+      header { padding: 0 20px; }
+      nav .hide-mobile { display: none; }
+    }
   </style>
 </head>
 <body>
-<div class="card" id="statusCard">
-  <div class="spinner"></div>
-  <h2>Processing Demo Order...</h2>
-  <p>Placing order on your behalf. This will take a moment.</p>
-  <div id="message" style="margin-top: 20px;"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Shop<span>Gen</span></div>
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#how" class="hide-mobile">How It Works</a>
+    <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=Hi+ShopGen%21" target="_blank" class="whatsapp-btn">💬 Shop on WhatsApp</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">✦ Pakistan's AI Fashion Store</span>
+    <h1>Shop <em>smarter</em> on WhatsApp</h1>
+    <p>Browse Khaadi, Sapphire & Alkaram collections. Text, voice, or image search. Order in seconds — all on WhatsApp.</p>
+    <div class="hero-cta">
+      <a href="#products" class="btn-gold">Browse Collection</a>
+      <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=Hi+ShopGen%21" target="_blank" class="btn-outline">💬 Chat to Order</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP BANNER -->
+<div class="wa-banner">
+  <p>🤖 <strong>AI Shopping Assistant live on WhatsApp</strong> — Search by text or voice, add to cart, place order with OTP verification</p>
+  <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=Hi+ShopGen%21" target="_blank" class="wa-badge">
+    💬 Open WhatsApp
+  </a>
+</div>
+
+<!-- BRANDS -->
+<div class="brands">
+  <span>Khaadi</span>
+  <span>Sapphire</span>
+  <span>Alkaram Studio</span>
+  <span>Men · Women · Kids</span>
+  <span>Free Delivery</span>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="products">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+  <button class="filter-btn" onclick="filterProducts('women', this)">Women</button>
+  <button class="filter-btn" onclick="filterProducts('men', this)">Men</button>
+  <button class="filter-btn" onclick="filterProducts('kids', this)">Kids</button>
+  <button class="filter-btn" onclick="filterProducts('Khaadi', this)">Khaadi</button>
+  <button class="filter-btn" onclick="filterProducts('Sapphire', this)">Sapphire</button>
+  <button class="filter-btn" onclick="filterProducts('Alkaram', this)">Alkaram</button>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+  <div class="section-header">
+    <h2 class="section-title">Latest Collection</h2>
+    <span class="product-count" id="count-label">Loading...</span>
+  </div>
+  <div class="products-grid" id="products-grid">
+    <!-- Injected by JS -->
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <h2>How ShopGen Works</h2>
+  <p>Shop Pakistan's top brands — entirely on WhatsApp</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">💬</div>
+      <h3>Message Us</h3>
+      <p>Open WhatsApp and say what you're looking for. Text or voice, we understand Urdu-English mix.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🔍</div>
+      <h3>AI Searches</h3>
+      <p>Our AI finds matching products from Khaadi, Sapphire, and Alkaram instantly.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🛒</div>
+      <h3>Add to Cart</h3>
+      <p>Reply "add 1" or "add 2" to add items. View your cart anytime.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">🔐</div>
+      <h3>OTP Checkout</h3>
+      <p>Place your order and confirm with a one-time code. Secure and instant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Shop<span style="color:#888">Gen</span></div>
+  <p>© 2025 ShopGen. Built for FYP — AI Shopping Assistant on WhatsApp.</p>
+  <p style="color:#444">Khaadi · Sapphire · Alkaram</p>
+</footer>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="order-modal">
+  <div class="modal">
+    <div id="order-form-section">
+      <h2>Place Order</h2>
+      <p class="subtitle">Fill in your delivery details to confirm</p>
+
+      <div class="modal-product-info" id="modal-product-info">
+        <!-- Filled by JS -->
+      </div>
+
+      <label>Full Name</label>
+      <input type="text" id="order-name" placeholder="e.g. Ali Hassan" />
+
+      <label>Phone Number</label>
+      <input type="tel" id="order-phone" placeholder="e.g. 0300-1234567" />
+
+      <label>City</label>
+      <input type="text" id="order-city" placeholder="e.g. Lahore, Karachi, Islamabad" />
+
+      <label>Delivery Address</label>
+      <input type="text" id="order-address" placeholder="Street, Area, City" />
+
+      <label>Size</label>
+      <select id="order-size">
+        <option value="">Select size</option>
+      </select>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-place" onclick="submitOrder()">✓ Confirm Order</button>
+      </div>
+    </div>
+
+    <div class="success-box" id="success-box">
+      <div class="tick">✅</div>
+      <h3>Order Placed!</h3>
+      <p>Order ID: <span class="order-id" id="success-order-id"></span><br/><br/>
+      Your order has been received. Expected delivery in <strong>3–5 business days</strong>.<br/><br/>
+      You'll receive an update on WhatsApp shortly.</p>
+      <br/>
+      <button class="btn-place" onclick="closeModal()" style="max-width:200px;margin:0 auto;display:block;">Done</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  (function() {
-    const params = new URLSearchParams(window.location.search);
-    
-    // Extract all data from URL
-    const orderData = {
-      order_id: 'AUTO-' + Date.now(),
-      product_id: params.get('product_id') || 'demo-001',
-      product_name: params.get('product_name') || 'Demo Product',
-      brand: params.get('brand') || 'Pakistani Brand',
-      price: Number(params.get('price') || 0),
-      name: params.get('name') || 'Auto User',
-      phone: params.get('phone') || '923001234567',
-      city: params.get('city') || 'Lahore',
-      address: params.get('address') || 'Auto-filled demo address, Main Boulevard',
-      size: params.get('size') || 'M',
-      source: 'whatsapp_auto',
-      placed_at: new Date().toISOString()
+  let allProducts = [];
+  let currentFilter = 'all';
+  let selectedProduct = null;
+
+  // ── Load products ──
+  async function loadProducts() {
+    try {
+      const res = await fetch('products.json');
+      allProducts = await res.json();
+      renderProducts(allProducts);
+    } catch(e) {
+      document.getElementById('products-grid').innerHTML =
+        '<p style="color:#999;grid-column:1/-1">Failed to load products. Make sure products.json is in the same folder.</p>';
+    }
+  }
+
+  // ── Render ──
+  function renderProducts(products) {
+    const grid = document.getElementById('products-grid');
+    const count = document.getElementById('count-label');
+    count.textContent = `${products.length} item${products.length !== 1 ? 's' : ''}`;
+
+    if (!products.length) {
+      grid.innerHTML = '<p style="color:#999;grid-column:1/-1;text-align:center;padding:40px">No products found for this filter.</p>';
+      return;
+    }
+
+    grid.innerHTML = products.map(p => `
+      <div class="product-card ${!p.in_stock ? 'out-of-stock' : ''}" onclick="${p.in_stock ? `openOrder('${p.product_id}')` : ''}">
+        <img class="product-img" src="${p.image_url}" alt="${p.name}" loading="lazy"
+          onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400'"/>
+        <div class="product-body">
+          <div class="product-brand">${p.brand}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-meta">
+            <span class="product-price">PKR ${p.price.toLocaleString()}</span>
+            <span class="product-badge ${!p.in_stock ? 'oos-badge' : ''}">
+              ${!p.in_stock ? 'Out of Stock' : p.occasion || p.category}
+            </span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── Filter ──
+  function filterProducts(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = filter;
+
+    let filtered = allProducts;
+    if (filter !== 'all') {
+      filtered = allProducts.filter(p =>
+        p.gender === filter || p.brand === filter
+      );
+    }
+    renderProducts(filtered);
+  }
+
+  // ── Order Modal ──
+  function openOrder(productId) {
+    selectedProduct = allProducts.find(p => p.product_id === productId);
+    if (!selectedProduct) return;
+
+    // Product info in modal
+    document.getElementById('modal-product-info').innerHTML = `
+      <img src="${selectedProduct.image_url}" alt="${selectedProduct.name}"
+        onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400'"/>
+      <div>
+        <div class="pname">${selectedProduct.name}</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin:2px 0">${selectedProduct.brand} · ${selectedProduct.category}</div>
+        <div class="pprice">PKR ${selectedProduct.price.toLocaleString()}</div>
+      </div>
+    `;
+
+    // Populate sizes
+    const sizeSelect = document.getElementById('order-size');
+    sizeSelect.innerHTML = '<option value="">Select size</option>' +
+      selectedProduct.sizes.map(s => `<option value="${s}">${s}</option>`).join('');
+
+    // Reset form
+    document.getElementById('order-name').value = '';
+    document.getElementById('order-phone').value = '';
+    document.getElementById('order-city').value = '';
+    document.getElementById('order-address').value = '';
+    document.getElementById('order-form-section').style.display = 'block';
+    document.getElementById('success-box').style.display = 'none';
+
+    document.getElementById('order-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('order-modal').classList.remove('open');
+    selectedProduct = null;
+  }
+
+  // Close on overlay click
+  document.getElementById('order-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ── Submit Order ──
+  async function submitOrder() {
+    const name    = document.getElementById('order-name').value.trim();
+    const phone   = document.getElementById('order-phone').value.trim();
+    const city    = document.getElementById('order-city').value.trim();
+    const address = document.getElementById('order-address').value.trim();
+    const size    = document.getElementById('order-size').value;
+
+    if (!name || !phone || !city || !address || !size) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const orderId = 'ORD-' + Date.now();
+    const order = {
+      order_id:   orderId,
+      product_id: selectedProduct.product_id,
+      product:    selectedProduct.name,
+      brand:      selectedProduct.brand,
+      price:      selectedProduct.price,
+      size:       size,
+      name:       name,
+      phone:      phone,
+      city:       city,
+      address:    address,
+      status:     'confirmed',
+      placed_at:  new Date().toISOString(),
     };
 
-    // Save to localStorage (for dashboard)
-    const existing = JSON.parse(localStorage.getItem('shopgen_orders') || '[]');
-    existing.push(orderData);
-    localStorage.setItem('shopgen_orders', JSON.stringify(existing));
+    // Save to localStorage so agent can also read it
+    const orders = JSON.parse(localStorage.getItem('shopgen_orders') || '[]');
+    orders.push(order);
+    localStorage.setItem('shopgen_orders', JSON.stringify(orders));
 
-    // Send to your bot's webhook
-    const BACKEND_URL = 'https://tristin-roentgenoscopic-incomparably.ngrok-free.dev';  // CHANGE THIS
-    fetch(`${BACKEND_URL}/webhook/order`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      document.querySelector('.spinner').style.display = 'none';
-      document.getElementById('statusCard').innerHTML = `
-        <div style="font-size: 48px;">✅</div>
-        <h2 class="success">Order Placed!</h2>
-        <p>Order ID: ${orderData.order_id}</p>
-        <p>A confirmation has been sent to your WhatsApp.</p>
-        <small style="display: block; margin-top: 20px; color: #8b7355;">🎓 Thesis demo – fully automated</small>
-        <script>setTimeout(() => window.close(), 3000);<\/script>
-      `;
-    })
-    .catch(err => {
-      document.querySelector('.spinner').style.display = 'none';
-      document.getElementById('statusCard').innerHTML = `
-        <div style="font-size: 48px;">⚠️</div>
-        <h2 class="error">Demo Order Saved Locally</h2>
-        <p>Backend not reachable, but order recorded in browser.</p>
-        <small>For full demo, ensure ngrok is running.</small>
-      `;
-    });
-  })();
+    // Post to your agent backend (update URL when deployed)
+    try {
+      await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      });
+    } catch(e) {
+      // Silent fail — order still saved locally
+    }
+
+    // Show success
+    document.getElementById('success-order-id').textContent = orderId;
+    document.getElementById('order-form-section').style.display = 'none';
+    document.getElementById('success-box').style.display = 'block';
+  }
+
+  loadProducts();
 </script>
 </body>
 </html>
